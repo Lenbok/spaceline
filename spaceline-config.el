@@ -40,8 +40,8 @@
       (treesit-inspect :when active)
       (mu4e-alert-segment :when active)
       (erc-track :when active)
-      (version-control :when active
-                       :priority 78)
+      (version-control-icon :when active
+                            :priority 78)
       (org-pomodoro :when active)
       (org-clock :when active)
       nyan-cat)
@@ -95,7 +95,7 @@ ADDITIONAL-SEGMENTS are inserted on the right, between `global' and
             buffer-size)
            :face highlight-face
            :priority 100)
-         '((buffer-id remote-host)
+         '((buffer-id-icon remote-host)
            :priority 98)
          additional-segments))
 

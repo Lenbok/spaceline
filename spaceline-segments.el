@@ -30,6 +30,8 @@
 (require 'spaceline)
 (require 's)
 
+(require 'nerd-icons nil t)
+
 (defvar evil-state)
 (defvar evil-visual-selection)
 
@@ -94,6 +96,14 @@
    (s-trim (powerline-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
    spaceline-buffer-id-max-length))
 
+(spaceline-define-segment buffer-id-icon
+  "Name of buffer with Nerd icon."
+  (format "%s %s"
+          (nerd-icons-icon-for-buffer)
+          (spaceline--string-trim-from-center
+           (s-trim (powerline-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+           spaceline-buffer-id-max-length)))
+
 (spaceline-define-segment remote-host
   "Hostname for remote buffers."
   (when (and default-directory
@@ -139,6 +149,23 @@
                          (`needs-merge " Con")
                          (`needs-update " Upd")
                          (`ignored " Ign")
+                         (_ " Unk"))))))))
+
+(spaceline-define-segment version-control-icon
+  "Version control information with icon."
+  (when vc-mode
+    (powerline-raw
+     (s-trim (concat vc-mode
+                     (when (buffer-file-name)
+                       (pcase (vc-state (buffer-file-name))
+                         (`up-to-date (format " %s" (nerd-icons-faicon "nf-fa-check_circle" :face '(:foreground "#BFDB38"))))
+                         (`edited (format " %s" (nerd-icons-octicon "nf-oct-diff_modified" :face '(:foreground "#F7C04A"))))
+                         (`added (format " %s" (nerd-icons-octicon "nf-oct-diff_added" :face '(:foreground "#93C6E7"))))
+                         (`unregistered (format " %s" (nerd-icons-faicon "nf-fa-question_circle" :face '(:foreground "#EA5455"))))
+                         (`removed (format " %s" (nerd-icons-octicon "nf-oct-diff_removed" :face '(:foreground "#555555"))))
+                         (`needs-merge (format " %s" (nerd-icons-codicon "nf-cod-merge" :face '(:foreground "#9E4784"))))
+                         (`needs-update (format " %s" (nerd-icons-faicon "nf-fa-refresh" :face '(:foreground "#FF8B13"))))
+                         (`ignored (format " %s" (nerd-icons-octicon "nf-oct-diff_ignored" :face '(:foreground "#555555"))))
                          (_ " Unk"))))))))
 
 (spaceline-define-segment buffer-encoding
