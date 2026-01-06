@@ -661,7 +661,12 @@ enabled."
        ((bound-and-true-p conda-env-current-name)
         (setq name conda-env-current-name source "conda"))
        ((and (fboundp 'pyenv-mode) (setq name (pyenv-mode-version)))
-        (setq source "pyenv")))
+        (setq source "pyenv"))
+       ((bound-and-true-p python-shell-virtualenv-root)
+        (setq name (file-name-nondirectory (directory-file-name
+                                            (file-name-directory
+                                             (directory-file-name python-shell-virtualenv-root))))
+              source "python")))
       (when name
         (propertize name
                     'face 'spaceline-python-venv

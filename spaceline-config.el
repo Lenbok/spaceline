@@ -46,7 +46,7 @@
       (org-clock :when active)
       nyan-cat)
     `(which-function
-      (python-pyvenv :fallback python-pyenv)
+      (python-env)
       (purpose :priority 94)
       (battery :when active)
       (selection-info :priority 95)
